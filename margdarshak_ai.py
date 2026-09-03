@@ -1,8 +1,18 @@
+import json
+import os
+
 print("--- Welcome to Tumhara Apna MargDarshak AI ---")
 
 correct_password = "bbd"
 attempts = 3
-user_database = []  # एडवांस्ड डेटाबेस (डिक्शनरी लिस्ट)
+FILE_NAME = "database.json"
+
+# 📂 जादुई लॉजिक 1: अगर पहले से फाइल बनी है, तो पुराना डेटा लोड कर लो
+if os.path.exists(FILE_NAME):
+    with open(FILE_NAME, "r") as file:
+        user_database = json.load(file)
+else:
+    user_database = []  # अगर फाइल नहीं है, तो नई खाली लिस्ट बनाओ
 
 print("\n--- SECURITY LOGIN ---")
 
@@ -35,46 +45,39 @@ else:
             percent = input("Apne 12th ke percent likho: ")
             percent_number = int(percent)
             
-            # नाम और मार्क्स का जोड़ा बनाकर डेटाबेस में सेव करना
             user_data = {
                 "user_name": name,
                 "user_marks": percent_number
             }
             user_database.append(user_data)
             
-            print(f"Hello {name}! Aapka data secure database me safe ho gaya hai.")
+            # 💾 जादुई लॉजिक 2: नाम डालते ही डेटा को तुरंत फाइल में हमेशा के लिए राइट (Save) कर दो
+            with open(FILE_NAME, "w") as file:
+                json.dump(user_database, file, indent=4)
+                
+            print(f"Hello {name}! Aapka data secure permanent file me save ho gaya hai.")
             
-            # 🔥 यहाँ से शुरू होता है आगे का पूरा करियर गाइडेंस काम!
+            # career guidance flow
             print(f"\n--- GUIDANCE FOR {name.upper()} ---")
-            print("A. Check Placement Eligibility (12th Marks)")
-            print("B. Explore Career Fields (Web, AI, Cyber, Data)")
+            print("A. Check Placement Eligibility")
+            print("B. Explore Career Fields")
             sub_choice = input("Kya check karna chahte hain (A ya B): ")
             
             if sub_choice == 'A' or sub_choice == 'a':
                 if percent_number < 60:
-                    print("-> Target: Product-Based Companies & Startups (Marks don't matter there!)")
+                    print("-> Target: Product-Based Companies & Startups!")
                 else:
                     print("-> Wah! Aap campus ki sabhi companies me baith sakte hain.")
-                    
             elif sub_choice == 'B' or sub_choice == 'b':
-                print("\n--- Career Fields ---")
-                print("1. Web Dev\n2. AI / ML\n3. Cyber Security\n4. Data Science")
+                print("\n--- Career Fields ---\n1. Web Dev\n2. AI / ML\n3. Cyber Security\n4. Data Science")
                 field = input("Apna option chunein (1-4): ")
-                if field == '1':
-                    print("-> JavaScript aur React seekhna shuru karein!")
-                elif field == '2':
-                    print("-> Sahi chunav! Python aur Mathematics par dhyan dein.")
-                elif field == '3':
-                    print("-> Great choice! Cyber Security ke liye Linux aur Networking seekhein.")
-                elif field == '4':
-                    print("-> Data Science ke liye Libraries aur Statistics seekhein!")
-                else:
-                    print("-> Invalid option!")
-            else:
-                print("-> Invalid sub-choice!")
+                if field == '1': print("-> JavaScript aur React seekhein!")
+                elif field == '2': print("-> Python aur Mathematics par dhyan dein.")
+                elif field == '3': print("-> Cyber Security ke liye Linux seekhein.")
+                elif field == '4': print("-> Data Science ke liye Libraries seekhein.")
             
         elif choice == '2':
-            print("\n--- 📂 ADMIN DATABASE ANALYTICS ---")
+            print("\n--- 📂 PERMANENT DATABASE ANALYTICS ---")
             if len(user_database) == 0:
                 print("Database khali hai!")
             else:
